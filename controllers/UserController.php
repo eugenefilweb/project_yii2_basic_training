@@ -6,13 +6,14 @@ use Yii;
 use app\models\User;
 use app\models\UserSearch;
 use yii\web\Controller;
+use app\controllers\BaseController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * UserController implements the CRUD actions for User model.
  */
-class UserController extends Controller
+class UserController extends BaseController
 {
     /**
      * @inheritDoc
@@ -22,12 +23,14 @@ class UserController extends Controller
         return [
             'access' => [
                 'class' => \yii\filters\AccessControl::class,
-                'only' => ['index','create', 'delete'],
+                'only' => ['index','create','update','delete'],
+                // 'only' => [''],
                 'rules' => [
                     // deny all POST requests
                     [
-                        'allow' => false,
-                        'verbs' => ['POST']
+                        // 'allow' => false,
+                        'allow' => true,
+                        'verbs' => ['POST'],
                     ],
                     // allow authenticated users
                     [
@@ -77,9 +80,12 @@ class UserController extends Controller
      */
     public function actionCreate()
     {
+
         $model = new User(['scenario' => 'register']);
 
+
         if ($this->request->isPost) {
+            
             if ($model->load($this->request->post()) && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
@@ -101,12 +107,13 @@ class UserController extends Controller
      */
     public function actionUpdate($id)
     {
+  
         $model = $this->findModel($id);
 
         $old_password = $model->password;
 
         if ($this->request->isPost && $model->load($this->request->post())) {
-
+        // if (Yii::$app->request->post()) {
             if($model->password){
                 $hash = Yii::$app->getSecurity()->generatePasswordHash($model->password);
                 $model->password = $hash;
@@ -153,5 +160,19 @@ class UserController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+
+    public function actions()
+    {
+        return [
+            'error' => [
+                'class' => 'yii\web\ErrorAction',
+            ],
+            'captcha' => [
+                'class' => 'yii\captcha\CaptchaAction',
+                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+            ],
+        ];
     }
 }

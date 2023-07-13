@@ -51,7 +51,9 @@ $test = controller_actions($controller_name=null);
 // }
 // print_r($test);
 
-print_r($model->access_role);
+// print_r($model->access_role);
+
+// print_r($test);
 
 $model->role_list['access_role']=$model->access_role;
 
@@ -102,7 +104,7 @@ $model->role_list['access_role']=$model->access_role;
         <tr>
             <td>Role</td>
             <td>Action</td>
-
+        </tr>
             <?php
                 foreach($test as $key=>$row) {
 
@@ -120,7 +122,7 @@ $model->role_list['access_role']=$model->access_role;
                     <tr>
                         <td>'
                             .$row['title']
-                            .$form->field($model,'role_list[title][]')->textInput(['value'=>$key])
+                            .$form->field($model,'role_list[title][]')->label(false)->textInput(['value'=>$key])
                             // .$form->field($model,'role_list[][action]')->checkboxList($row['actions'],['itemOptions'=>['labelOptions'=>['class'=>'checkbox-label']]])
                             // .$form->field($model,'role_list[action]['.$key.'][]')->checkboxList($actions2,['itemOptions'=>['labelOptions'=>['class'=>'checkbox-label']]])
                             .$form->field($model,'role_list[access_role]['.$key.'][]')->checkboxList($actions2,['itemOptions'=>['labelOptions'=>['class'=>'checkbox-label']]])

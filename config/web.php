@@ -25,6 +25,7 @@ $config = [
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
+            'errorView' => 'site/error'
         ],
         'mailer' => [
             'class' => \yii\symfonymailer\Mailer::class,

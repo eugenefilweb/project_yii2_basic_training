@@ -5,12 +5,15 @@ namespace app\controllers;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
+use app\controllers\BaseController;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\Role;
 
-class SiteController extends Controller
+
+class SiteController extends BaseController
 {
     /**
      * {@inheritdoc}
@@ -61,6 +64,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+
         return $this->render('index');
     }
 
@@ -71,12 +75,21 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
+
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 
+        
+        
+
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+
+            $id = Yii::$app->user->identity['role_id'];
+            $role = Role::findOne(['id'=>$id]);
+            Yii::$app->session->set('role', $role['role_name']);
+
             return $this->goBack();
         }
 

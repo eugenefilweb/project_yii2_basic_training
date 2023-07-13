@@ -176,5 +176,10 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return parent::beforeSave($insert);
     }
 
+    public function getRole()
+    {
+        return $this->hasOne(Role::class, ['id' => 'role_id']);
+    }
+
 }
 

@@ -5,13 +5,14 @@ namespace app\controllers;
 use app\models\Role;
 use app\models\RoleSearch;
 use yii\web\Controller;
+use app\controllers\BaseController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * RoleController implements the CRUD actions for Role model.
  */
-class RoleController extends Controller
+class RoleController extends BaseController
 {
     /**
      * @inheritDoc
@@ -68,6 +69,13 @@ class RoleController extends Controller
     public function actionCreate()
     {
         $model = new Role();
+
+        $data = $this->request->post();
+        // print_r($data);
+        // die;
+        $access_role = $data['Role']['role_list']['access_role'];
+        $access_role = json_encode($access_role);
+        $model->access_role = $access_role;
         $errors = null;
 
         if ($this->request->isPost) {
@@ -105,12 +113,13 @@ class RoleController extends Controller
             
             
             // return $this->redirect(['view', 'id' => $model->id]);
-            // print_r($data['Role']['role_list']);
+            print_r($data['Role']['role_list']);
 
             $access_role = $data['Role']['role_list']['access_role'];
             $access_role = json_encode($access_role);
 
-            echo $access_role;
+            // print_r($access_role);
+            // die;
             // print_r($data['Role']['role_list']['access_role']);
             // $model->role_list['access_role'];
             $model->access_role = $access_role;

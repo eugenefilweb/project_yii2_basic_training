@@ -14,7 +14,7 @@ $list_role = Role::find()->all();
 $list_role = ArrayHelper::map($list_role, 'id', 'role_name');
 $role = Role::findOne(['id'=>2]);
 
-echo $role->role_name;
+// echo $role->role_name;
 // print_r($list_role);
 
 ?>

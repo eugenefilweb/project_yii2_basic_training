@@ -11,6 +11,8 @@ use app\models\User;
  */
 class UserSearch extends User
 {
+    public $role_name; // Add the role_name attribute
+    
     /**
      * {@inheritdoc}
      */
@@ -18,7 +20,7 @@ class UserSearch extends User
     {
         return [
             [['id'], 'integer'],
-            [['user_name', 'user_email', 'password', 'nick_name', 'authKey', 'accessToken', 'date_created'], 'safe'],
+            [['user_name', 'user_email', 'password', 'nick_name', 'authKey', 'accessToken', 'date_created', 'role_name'], 'safe'], // Include role_name in the rules
         ];
     }
 
@@ -28,7 +30,8 @@ class UserSearch extends User
     public function scenarios()
     {
         // bypass scenarios() implementation in the parent class
-        return Model::scenarios();
+        // return Model::scenarios();
+        return parent::scenarios();
     }
 
     /**
@@ -41,6 +44,7 @@ class UserSearch extends User
     public function search($params)
     {
         $query = User::find();
+        $query = User::find()->joinWith('role');
 
         // add conditions that should always apply here
 
@@ -67,8 +71,10 @@ class UserSearch extends User
             ->andFilterWhere(['like', 'password', $this->password])
             ->andFilterWhere(['like', 'nick_name', $this->nick_name])
             ->andFilterWhere(['like', 'authKey', $this->authKey])
-            ->andFilterWhere(['like', 'accessToken', $this->accessToken]);
+            ->andFilterWhere(['like', 'accessToken', $this->accessToken])
+            ->andFilterWhere(['like', 'role_name', $this->role_name]); // Include role_name in the filtering conditions
 
         return $dataProvider;
     }
 }
+

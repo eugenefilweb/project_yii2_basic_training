@@ -8,7 +8,7 @@ use yii\helpers\Html;
 $this->title = 'Create Role';
 $this->params['breadcrumbs'][] = ['label' => 'Roles', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-print_r($errors);
+// print_r($errors);
 ?>
 
 <div class="role-create">

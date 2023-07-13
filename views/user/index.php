@@ -1,6 +1,7 @@
 <?php
 
 use app\models\User;
+use app\models\Role;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
@@ -24,27 +25,35 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+    'dataProvider' => $dataProvider,
+    'filterModel' => $searchModel,
+    'columns' => [
+        ['class' => 'yii\grid\SerialColumn'],
+        'id',
+        'user_name',
+        [
+            'attribute' => 'role_name',
+            'value' => function ($model) {
 
-            'id',
-            'user_name',
-            'user_email:email',
-            'password',
-            'nick_name',
-            //'authKey',
-            //'accessToken',
-            //'date_created',
-            [
-                'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, User $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'id' => $model->id]);
-                 }
-            ],
+                return Role::findOne($model->role_id)->role_name ?? null;
+                // return isset($model->role_id) ? Role::findOne($model->role_id)->role_name : null;
+            },
+            // 'contentOptions' => ['style' => 'color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1)); text-decoration: none;'],
+            'headerOptions' => ['style' => 'color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1)); text-decoration: underline;'],
+            'filter' => Html::activeTextInput($searchModel, 'role_name', ['class' => 'form-control']),
         ],
-    ]); ?>
+        'user_email:email',
+        'password',
+        'nick_name',
+        [
+            'class' => ActionColumn::className(),
+            'urlCreator' => function ($action, User $model, $key, $index, $column) {
+                return Url::toRoute([$action, 'id' => $model->id]);
+             },
+        ],
+    ],
+]); ?>
+
 
 
 </div>
