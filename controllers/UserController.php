@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Role;
 use Yii;
 use app\models\User;
 use app\models\UserSearch;
@@ -9,6 +10,7 @@ use yii\web\Controller;
 use app\controllers\BaseController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\ForbiddenHttpException;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -23,7 +25,7 @@ class UserController extends BaseController
         return [
             'access' => [
                 'class' => \yii\filters\AccessControl::class,
-                'only' => ['index','create','update','delete'],
+                // 'only' => ['index','create','update','delete'],
                 // 'only' => [''],
                 'rules' => [
                     // deny all POST requests
@@ -51,12 +53,17 @@ class UserController extends BaseController
 
     public function actionIndex()
     {
+
+
         $searchModel = new UserSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
+        $id = Yii::$app->user->identity['role_id'];
+        $role = Role::findOne(['id'=>$id]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'role' => $role
         ]);
     }
 
@@ -162,17 +169,4 @@ class UserController extends BaseController
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-
-    public function actions()
-    {
-        return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ],
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-            ],
-        ];
-    }
 }

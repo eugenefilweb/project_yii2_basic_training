@@ -25,7 +25,7 @@ $config = [
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
-            'errorView' => 'site/error'
+            // 'errorView' => 'site/error'
         ],
         'mailer' => [
             'class' => \yii\symfonymailer\Mailer::class,
@@ -43,14 +43,14 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
+        
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
             ],
         ],
-        */
+        
     ],
     'params' => $params,
 ];

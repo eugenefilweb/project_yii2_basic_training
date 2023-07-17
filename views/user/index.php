@@ -47,9 +47,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'nick_name',
         [
             'class' => ActionColumn::className(),
-            'urlCreator' => function ($action, User $model, $key, $index, $column) {
+            // 'template' => '{view} {update} {delete}', // Specify the buttons to include
+            'template' => $role->id === 1 ? '{view} {update} {delete}' : ($role->id === 2 ? '{view} {update}' : ($role->id === 5 ? '{view}' : null)),
+            'urlCreator' => function ($action, $model, $key, $index) {
                 return Url::toRoute([$action, 'id' => $model->id]);
-             },
+            },
         ],
     ],
 ]); ?>

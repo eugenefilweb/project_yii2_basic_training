@@ -40,4 +40,7 @@ class BaseController extends Controller
         return isset($accessRole[$controllerId]) && is_array($accessRole[$controllerId]) && in_array($actionId, $accessRole[$controllerId]);
         // return isset($accessRole[$controllerId]) && in_array($actionId, $accessRole[$controllerId]);
     }
+
+
+    
 }

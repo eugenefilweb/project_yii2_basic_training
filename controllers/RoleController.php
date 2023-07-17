@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use Yii;
 use app\models\Role;
 use app\models\RoleSearch;
 use yii\web\Controller;
@@ -41,10 +42,13 @@ class RoleController extends BaseController
     {
         $searchModel = new RoleSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
+        $id = Yii::$app->user->identity['role_id'];
+        $role = Role::findOne(['id'=>$id]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'role' => $role,
         ]);
     }
 
@@ -71,8 +75,6 @@ class RoleController extends BaseController
         $model = new Role();
 
         $data = $this->request->post();
-        // print_r($data);
-        // die;
         $access_role = $data['Role']['role_list']['access_role'];
         $access_role = json_encode($access_role);
         $model->access_role = $access_role;

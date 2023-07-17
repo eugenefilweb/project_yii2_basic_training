@@ -11,9 +11,10 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\Role;
+use yii\web\ForbiddenHttpException;
 
-
-class SiteController extends BaseController
+// class SiteController extends BaseController
+class SiteController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -64,7 +65,6 @@ class SiteController extends BaseController
      */
     public function actionIndex()
     {
-
         return $this->render('index');
     }
 
@@ -138,4 +138,5 @@ class SiteController extends BaseController
     {
         return $this->render('about');
     }
+    
 }

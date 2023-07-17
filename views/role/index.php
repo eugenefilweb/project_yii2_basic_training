@@ -35,6 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'date_created',
             [
                 'class' => ActionColumn::className(),
+                'template' => $role->id === 1 ? '{view} {update} {delete}' : ($role->id === 2 ? '{view} {update}' : ($role->id === 5 ? '{view}' : null)),
                 'urlCreator' => function ($action, Role $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }
